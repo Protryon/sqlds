@@ -10,10 +10,10 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/Protryon/sqlds/v3"
+	"github.com/Protryon/sqlds/v3/mock"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data/sqlutil"
-	"github.com/grafana/sqlds/v3"
-	"github.com/grafana/sqlds/v3/mock"
 )
 
 var registered = map[string]*SqlHandler{}

@@ -6,9 +6,9 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/Protryon/sqlds/v3"
+	"github.com/Protryon/sqlds/v3/test"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/sqlds/v3"
-	"github.com/grafana/sqlds/v3/test"
 	"github.com/stretchr/testify/assert"
 )
 
