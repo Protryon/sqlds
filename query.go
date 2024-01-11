@@ -105,7 +105,7 @@ func getErrorFrameFromQuery(query *Query) data.Frames {
 }
 
 // QueryDB sends the query to the connection and converts the rows to a dataframe.
-func QueryDB(ctx context.Context, db Connection, converters []sqlutil.Converter, fillMode *data.FillMissing, query *Query, args ...interface{}) (data.Frames, error) {
+func QueryDB(ctx context.Context, db Connection, converterGenerator *sqlutil.ConverterGenerator, converters []sqlutil.Converter, fillMode *data.FillMissing, query *Query, args ...interface{}) (data.Frames, error) {
 	// Query the rows from the database
 	rows, err := db.QueryContext(ctx, query.RawSQL, args...)
 	if err != nil {
@@ -136,7 +136,7 @@ func QueryDB(ctx context.Context, db Connection, converters []sqlutil.Converter,
 	}()
 
 	// Convert the response to frames
-	res, err := getFrames(rows, -1, converters, fillMode, query)
+	res, err := getFrames(rows, -1, converterGenerator, converters, fillMode, query)
 	if err != nil {
 		err := PluginError(fmt.Errorf("%w: %s", err, "Could not process SQL results"))
 		return getErrorFrameFromQuery(query), err
@@ -145,8 +145,8 @@ func QueryDB(ctx context.Context, db Connection, converters []sqlutil.Converter,
 	return res, nil
 }
 
-func getFrames(rows *sql.Rows, limit int64, converters []sqlutil.Converter, fillMode *data.FillMissing, query *Query) (data.Frames, error) {
-	frame, err := sqlutil.FrameFromRows(rows, limit, converters...)
+func getFrames(rows *sql.Rows, limit int64, converterGenerator *sqlutil.ConverterGenerator, converters []sqlutil.Converter, fillMode *data.FillMissing, query *Query) (data.Frames, error) {
+	frame, err := sqlutil.FrameFromRows(rows, limit, converterGenerator, converters...)
 	if err != nil {
 		return nil, err
 	}

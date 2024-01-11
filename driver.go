@@ -31,6 +31,7 @@ type Driver interface {
 	Settings(context.Context, backend.DataSourceInstanceSettings) DriverSettings
 	Macros() Macros
 	Converters() []sqlutil.Converter
+	ConverterGenerator() *sqlutil.ConverterGenerator
 }
 
 // Connection represents a SQL connection and is satisfied by the *sql.DB type
